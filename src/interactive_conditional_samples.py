@@ -76,6 +76,8 @@ def interact_model(
                 raw_text = input("Model prompt >>> ")
             context_tokens = enc.encode(raw_text)
             generated = 0
+            import datetime
+            started = datetime.datetime.now()
             for _ in range(nsamples // batch_size):
                 out = sess.run(output, feed_dict={
                     context: [context_tokens for _ in range(batch_size)]
@@ -83,7 +85,7 @@ def interact_model(
                 for i in range(batch_size):
                     generated += 1
                     text = enc.decode(out[i])
-                    print("=" * 40 + " SAMPLE " + str(generated) + " " + "=" * 40)
+                    print("("+ (datetime.datetime.now()-started).second +") =" * 40 + " SAMPLE " + str(generated) + " " + "=" * 40)
                     print(text)
             print("=" * 80)
 
